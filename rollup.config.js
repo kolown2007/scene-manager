@@ -1,4 +1,6 @@
 import typescript from 'rollup-plugin-typescript2';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 
 export default {
   input: 'src/index.ts',
