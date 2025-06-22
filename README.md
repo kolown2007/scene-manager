@@ -14,7 +14,7 @@ A lightweight, framework-agnostic scene management library for JavaScript/TypeSc
 ## Installation
 
 ```bash
-npm install scene-manager
+not yet on npm
 ```
 
 ## Quick Start
@@ -198,6 +198,60 @@ class SavedScene extends Scene {
     this.setData('playerProgress', this.getCurrentState());
   }
 }
+```
+
+## SceneRegistry
+
+### Overview
+The `SceneRegistry` allows you to dynamically register and create scenes by type. This is useful for scenarios where you want to decouple scene creation from the main application logic.
+
+### Methods
+
+#### `register(type: string, constructor: SceneConstructor): void`
+Registers a new scene type with a unique identifier and its constructor.
+
+#### `create(type: string, name: string, ...args: any[]): Scene`
+Creates a new scene instance of the specified type.
+
+### Example Usage
+
+```typescript
+import { SceneRegistry, Scene } from 'scene-manager';
+
+// Define custom scenes
+class MenuScene extends Scene {
+  constructor(name: string) {
+    super(name);
+  }
+
+  onEnter() {
+    console.log(`${this.name} entered.`);
+  }
+}
+
+class GameScene extends Scene {
+  constructor(name: string) {
+    super(name);
+  }
+
+  onEnter() {
+    console.log(`${this.name} entered.`);
+  }
+}
+
+// Create a SceneRegistry instance
+const registry = new SceneRegistry();
+
+// Register scenes
+registry.register('menu', MenuScene);
+registry.register('game', GameScene);
+
+// Create scenes dynamically
+const menuScene = registry.create('menu', 'MainMenu');
+const gameScene = registry.create('game', 'Level1');
+
+menuScene.onEnter(); // Output: MainMenu entered.
+gameScene.onEnter(); // Output: Level1 entered.
 ```
 
 ## Development
