@@ -1,10 +1,10 @@
-import { Scene } from './Scene';
+import { KolownScene } from './Scene';
 
 /**
  * A scene that runs in the background without a visual component.
  * Useful for tasks like data processing, network requests, or background logic.
  */
-export class BackgroundScene extends Scene {
+export class BackgroundScene extends KolownScene {
   private intervalId: NodeJS.Timeout | null = null;
 
   /**

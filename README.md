@@ -276,3 +276,7 @@ npm run lint
 ## License
 
 ISC License - see LICENSE file for details.
+
+## Roadmap
+
+- Add an Asset Manager to handle loading and managing assets efficiently.

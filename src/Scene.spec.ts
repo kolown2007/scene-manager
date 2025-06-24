@@ -1,38 +1,38 @@
-import { Scene } from './Scene';
+import { KolownScene } from './Scene';
 
-class TestableScene extends Scene {
+class TestableKolownScene extends KolownScene {
   public enterCount = 0;
   public exitCount = 0;
   public updateCount = 0;
   public pauseCount = 0;
   public resumeCount = 0;
 
-  onEnter(): void {
+  public onEnter(): void {
     this.enterCount++;
   }
 
-  onExit(): void {
+  public onExit(): void {
     this.exitCount++;
   }
 
-  onUpdate(deltaTime: number): void {
+  public onUpdate(deltaTime: number): void {
     this.updateCount++;
   }
 
-  onPause(): void {
+  public onPause(): void {
     this.pauseCount++;
   }
 
-  onResume(): void {
+  public onResume(): void {
     this.resumeCount++;
   }
 }
 
-describe('Scene Lifecycle', () => {
-  let scene: TestableScene;
+describe('KolownScene Lifecycle', () => {
+  let scene: TestableKolownScene;
 
   beforeEach(() => {
-    scene = new TestableScene('lifecycle-test');
+    scene = new TestableKolownScene('lifecycle-test');
   });
 
   test('should track lifecycle method calls', () => {

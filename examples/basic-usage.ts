@@ -1,7 +1,7 @@
-import { SceneManager, Scene } from '../src';
+import { SceneManager, KolownScene } from '../src';
 
 // Example scene classes
-class MenuScene extends Scene {
+class MenuScene extends KolownScene {
   constructor() {
     super('menu');
   }
@@ -21,7 +21,7 @@ class MenuScene extends Scene {
   }
 }
 
-class GameScene extends Scene {
+class GameScene extends KolownScene {
   constructor() {
     super('game');
   }

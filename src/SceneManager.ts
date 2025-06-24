@@ -1,15 +1,27 @@
-import { Scene } from './Scene';
+/**
+ * SceneManager is responsible for managing scenes in an application.
+ * It handles adding, removing, switching, pausing, resuming, and updating scenes.
+ */
+
+import { KolownScene } from './Scene';
 import { SceneTransition } from './SceneTransition';
 import { SceneManagerOptions, SceneTransitionOptions } from './types';
 
 export class SceneManager {
-  private scenes: Map<string, Scene> = new Map();
-  private currentScene: Scene | null = null;
-  private previousScene: Scene | null = null;
+  private scenes: Map<string, KolownScene> = new Map();
+  private currentScene: KolownScene | null = null;
+  private previousScene: KolownScene | null = null;
   private activeTransition: SceneTransition | null = null;
   private lastUpdateTime: number = 0;
   private isUpdating: boolean = false;
 
+  /**
+   * Constructor for SceneManager.
+   * @param options - Configuration options for the SceneManager.
+   *   - enableTransitions: Enable/disable scene transitions (default: true).
+   *   - defaultTransitionDuration: Default transition duration in milliseconds (default: 1000).
+   *   - autoUpdate: Automatically start the update loop (default: true).
+   */
   constructor(private options: SceneManagerOptions = {}) {
     this.options = {
       enableTransitions: true,
@@ -23,10 +35,18 @@ export class SceneManager {
     }
   }
 
-  public addScene(scene: Scene): void {
+  /**
+   * Adds a scene to the manager.
+   * @param scene - The scene to add.
+   */
+  public addScene(scene: KolownScene): void {
     this.scenes.set(scene.name, scene);
   }
 
+  /**
+   * Removes a scene from the manager.
+   * @param sceneName - The name of the scene to remove.
+   */
   public removeScene(sceneName: string): void {
     const scene = this.scenes.get(sceneName);
     if (scene === this.currentScene) {
@@ -35,6 +55,12 @@ export class SceneManager {
     this.scenes.delete(sceneName);
   }
 
+  /**
+   * Switches to a specified scene.
+   * @param sceneName - The name of the scene to switch to.
+   * @param transitionOptions - Optional transition options.
+   * @throws Error if the specified scene is not found.
+   */
   public async switchTo(
     sceneName: string, 
     transitionOptions?: SceneTransitionOptions
@@ -58,7 +84,7 @@ export class SceneManager {
   }
 
   private async transitionToScene(
-    newScene: Scene, 
+    newScene: KolownScene, 
     transitionOptions?: SceneTransitionOptions
   ): Promise<void> {
     const options = {
@@ -90,7 +116,7 @@ export class SceneManager {
     });
   }
 
-  private async directSwitchToScene(newScene: Scene): Promise<void> {
+  private async directSwitchToScene(newScene: KolownScene): Promise<void> {
     // Exit current scene
     if (this.currentScene) {
       this.currentScene.setState('exiting');
@@ -105,14 +131,10 @@ export class SceneManager {
     newScene.setState('active');
   }
 
-  public getCurrentScene(): Scene | null {
-    return this.currentScene;
-  }
-
-  public getPreviousScene(): Scene | null {
-    return this.previousScene;
-  }
-
+  /**
+   * Pauses the current scene.
+   * Sets the current scene's state to 'paused' and calls its onPause lifecycle method.
+   */
   public pauseCurrentScene(): void {
     if (this.currentScene && this.currentScene.isActive()) {
       this.currentScene.setState('paused');
@@ -120,6 +142,10 @@ export class SceneManager {
     }
   }
 
+  /**
+   * Resumes the current scene.
+   * Sets the current scene's state to 'active' and calls its onResume lifecycle method.
+   */
   public resumeCurrentScene(): void {
     if (this.currentScene && this.currentScene.isPaused()) {
       this.currentScene.setState('active');
@@ -127,6 +153,10 @@ export class SceneManager {
     }
   }
 
+  /**
+   * Updates the current scene and active transition.
+   * @param deltaTime - Optional time delta for the update.
+   */
   public update(deltaTime?: number): void {
     const now = Date.now();
     const dt = deltaTime ?? (now - this.lastUpdateTime);
@@ -150,6 +180,10 @@ export class SceneManager {
     }
   }
 
+  /**
+   * Starts the update loop for the SceneManager.
+   * Continuously updates the current scene and active transition.
+   */
   private startUpdateLoop(): void {
     if (this.isUpdating) return;
     
@@ -166,14 +200,26 @@ export class SceneManager {
     requestAnimationFrame(updateFrame);
   }
 
+  /**
+   * Stops the update loop for the SceneManager.
+   */
   public stopUpdateLoop(): void {
     this.isUpdating = false;
   }
 
+  /**
+   * Gets the names of all scenes managed by the SceneManager.
+   * @returns An array of scene names.
+   */
   public getScenes(): string[] {
     return Array.from(this.scenes.keys());
   }
 
+  /**
+   * Checks if a scene exists in the manager.
+   * @param sceneName - The name of the scene to check.
+   * @returns True if the scene exists, false otherwise.
+   */
   public hasScene(sceneName: string): boolean {
     return this.scenes.has(sceneName);
   }

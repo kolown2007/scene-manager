@@ -1,4 +1,5 @@
 export { SceneManager } from './SceneManager';
-export { Scene } from './Scene';
+export { KolownScene } from './Scene';
 export { SceneTransition } from './SceneTransition';
+export { SceneRegistry } from './SceneRegistry';
 export * from './types';

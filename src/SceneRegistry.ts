@@ -1,9 +1,9 @@
-import { Scene } from './Scene';
+import { KolownScene } from './Scene';
 
 /**
  * A constructor type for creating scenes.
  */
-type SceneConstructor = new (name: string, ...args: any[]) => Scene;
+type SceneConstructor = new (name: string, ...args: any[]) => KolownScene;
 
 /**npx jest src/__tests__/SceneRegistry.test.ts
  * A registry for managing and creating scenes dynamically.
@@ -28,7 +28,7 @@ export class SceneRegistry {
    * @returns The created scene instance.
    * @throws Will throw an error if the scene type is not registered.
    */
-  create(type: string, name: string, ...args: any[]): Scene {
+  create(type: string, name: string, ...args: any[]): KolownScene {
     const constructor = this.registry.get(type);
     if (!constructor) {
       throw new Error(`Scene type "${type}" is not registered.`);
