@@ -1,5 +1,5 @@
 {
-  "name": "scene-manager",
+  "name": "@kolown/scene-manager",
   "version": "0.0.1",
   "description": "framework agnostic scene manager",
   "main": "dist/index.js",
